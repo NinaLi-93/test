@@ -114,9 +114,11 @@
 
         .filter-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--gs-light-blue);
         }
 
         .filter-group {
@@ -311,13 +313,6 @@
             margin-top: 15px;
         }
 
-        .api-config {
-            background: var(--gs-light-blue);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
         @media (max-width: 1400px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -332,34 +327,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏫🏠 Sicily School & Property Finder</h1>
+            <h1>Sicily School & Property Finder</h1>
             <p style="text-align: center; opacity: 0.9;">Find schools and properties in Sicily with detailed map and information</p>
-        </div>
-
-        <!-- API Configuration -->
-        <div class="search-section">
-            <h3 style="color: var(--gs-dark-blue); margin-bottom: 15px;">🔑 API Konfiguration</h3>
-            <div class="api-config">
-                <p style="margin-bottom: 10px;"><strong>RapidAPI Key für Idealista:</strong></p>
-                <input type="password" id="rapidApiKey" class="search-input" placeholder="Dein RapidAPI Key hier eingeben" style="width: 100%; margin-bottom: 10px;">
-                <button onclick="saveApiKey()" class="search-btn">💾 Key speichern</button>
-                <p style="margin-top: 10px; font-size: 0.85rem; color: #666;">
-                    Du findest deinen Key auf <a href="https://rapidapi.com/" target="_blank" style="color: var(--gs-dark-blue); font-weight: 600;">RapidAPI</a>
-                </p>
-            </div>
         </div>
 
         <!-- School Search -->
         <div class="search-section">
-            <h3 style="color: var(--gs-dark-blue); margin-bottom: 15px;">🏫 Schulen suchen</h3>
+            <h3 style="color: var(--gs-dark-blue); margin-bottom: 15px;">Search Schools</h3>
             <div id="uploadFallback" style="display: none; background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
-                <strong>⚠️ Automatic loading failed.</strong>
+                <strong>Automatic loading failed.</strong>
                 <p style="margin: 10px 0;">Please load the CSV file manually:</p>
                 <input type="file" id="csvFileInput" accept=".csv" style="margin: 10px 10px 0 0; padding: 8px;">
                 <button onclick="loadLocalCSV()" class="search-btn">Load CSV File</button>
             </div>
             <form class="search-form" id="searchForm">
-                <input type="text" id="addressInput" class="search-input" placeholder="Adresse in Sizilien (z.B. Via Roma 1, Palermo)">
+                <input type="text" id="addressInput" class="search-input" placeholder="Address in Sicily (e.g. Via Roma 1, Palermo)">
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <label for="radiusSelect">Radius:</label>
                     <select id="radiusSelect" style="padding: 12px; border: 2px solid var(--gs-light-blue); border-radius: 8px;">
@@ -371,47 +353,39 @@
                         <option value="3000">3km</option>
                     </select>
                 </div>
-                <button type="submit" class="search-btn">🔍 Suchen</button>
+                <button type="submit" class="search-btn">Search</button>
             </form>
         </div>
 
         <!-- Property Search -->
         <div class="search-section">
-            <h3 style="color: var(--gs-red); margin-bottom: 15px;">🏠 Immobilien suchen</h3>
+            <h3 style="color: var(--gs-red); margin-bottom: 15px;">Search Properties</h3>
             <form class="search-form" id="propertySearchForm">
-                <input type="text" id="propertyLocation" class="search-input" placeholder="Ort in Sizilien (z.B. Palermo, Catania)">
-                <button type="submit" class="search-btn property-btn">🔍 Immobilien laden</button>
+                <input type="text" id="propertyLocation" class="search-input" placeholder="City in Sicily (e.g. Palermo, Catania, Taormina)" required>
+                <button type="submit" class="search-btn property-btn">Load Properties</button>
             </form>
             
             <div class="filter-section">
                 <div class="filter-group">
-                    <label>Mindestpreis (€)</label>
-                    <input type="number" id="minPrice" placeholder="z.B. 50000">
+                    <label>Min Price (€)</label>
+                    <input type="number" id="minPrice" placeholder="e.g. 50000">
                 </div>
                 <div class="filter-group">
-                    <label>Maximalpreis (€)</label>
-                    <input type="number" id="maxPrice" placeholder="z.B. 300000">
+                    <label>Max Price (€)</label>
+                    <input type="number" id="maxPrice" placeholder="e.g. 300000">
                 </div>
                 <div class="filter-group">
-                    <label>Zimmer (min)</label>
-                    <input type="number" id="minRooms" placeholder="z.B. 2">
+                    <label>Min Size (m²)</label>
+                    <input type="number" id="minSize" placeholder="e.g. 60">
                 </div>
                 <div class="filter-group">
-                    <label>Fläche (min m²)</label>
-                    <input type="number" id="minSize" placeholder="z.B. 60">
-                </div>
-                <div class="filter-group">
-                    <label>Immobilienart</label>
+                    <label>Property Type</label>
                     <select id="propertyType">
-                        <option value="">Alle</option>
-                        <option value="homes">Häuser/Wohnungen</option>
-                        <option value="newHomes">Neubauten</option>
-                        <option value="offices">Büros</option>
+                        <option value="homes">Homes/Apartments</option>
+                        <option value="newHomes">New Developments</option>
+                        <option value="offices">Offices</option>
+                        <option value="premises">Commercial</option>
                     </select>
-                </div>
-                <div class="filter-group">
-                    <label>&nbsp;</label>
-                    <button type="button" onclick="applyFilters()" class="search-btn">✅ Filter anwenden</button>
                 </div>
             </div>
         </div>
@@ -421,7 +395,7 @@
         <div class="main-content" id="mainContent" style="display: none;">
             <!-- Left Panel: Schools -->
             <div class="side-panel">
-                <h3 style="color: var(--gs-dark-blue); margin-bottom: 15px;">🏫 Schulen</h3>
+                <h3 style="color: var(--gs-dark-blue); margin-bottom: 15px;">Schools</h3>
                 <div id="schoolsStats"></div>
                 <div id="schoolResults"></div>
             </div>
@@ -432,34 +406,34 @@
                 <div class="legend">
                     <div class="legend-item">
                         <div class="legend-color" style="background: #FFD363;"></div>
-                        <span>Dein Standort</span>
+                        <span>Your Location</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #092FAC;"></div>
-                        <span>Grundschulen</span>
+                        <span>Primary Schools</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #9F80FF;"></div>
-                        <span>Mittelschulen</span>
+                        <span>Middle Schools</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #5DC18B;"></div>
-                        <span>Oberschulen</span>
+                        <span>High Schools</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #FF6B4A;"></div>
-                        <span>Andere</span>
+                        <span>Other</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-color" style="background: #FF1744; border: 3px solid #FFD700;"></div>
-                        <span>Immobilien</span>
+                        <span>Properties</span>
                     </div>
                 </div>
             </div>
 
             <!-- Right Panel: Properties -->
             <div class="side-panel">
-                <h3 style="color: var(--gs-red); margin-bottom: 15px;">🏠 Immobilien</h3>
+                <h3 style="color: var(--gs-red); margin-bottom: 15px;">Properties</h3>
                 <div id="propertiesStats"></div>
                 <div id="propertyResults"></div>
             </div>
@@ -468,8 +442,8 @@
         <!-- Comparison Panel -->
         <div class="comparison-panel" id="comparisonPanel">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: var(--gs-red);">📊 Immobilien-Vergleich</h3>
-                <button onclick="closeComparison()" class="search-btn" style="padding: 8px 15px;">✖ Schließen</button>
+                <h3 style="color: var(--gs-red);">Property Comparison</h3>
+                <button onclick="closeComparison()" class="search-btn" style="padding: 8px 15px;">Close</button>
             </div>
             <div id="comparisonGrid" class="comparison-grid"></div>
         </div>
@@ -482,29 +456,15 @@
         let allPropertiesData = [];
         let userLocation = null;
         let markersGroup = null;
-        let apiKey = '538b2b6ab1msh1fb4def8de30ac4p141eb0jsn7e6241dc202f';
         let selectedForComparison = [];
+        const apiKey = '538b2b6ab1msh1fb4def8de30ac4p141eb0jsn7e6241dc202f';
 
         const GITHUB_CSV_URL = 'https://raw.githubusercontent.com/NinaLi-93/sicily-schoolradar/main/sicily-schooldata.csv';
-
-        // API Key Management
-        function saveApiKey() {
-            const key = document.getElementById('rapidApiKey').value.trim();
-            if (key) {
-                apiKey = key;
-                showStatus('✅ API Key gespeichert!');
-                setTimeout(() => {
-                    document.getElementById('statusMessage').innerHTML = '';
-                }, 2000);
-            } else {
-                showError('Bitte gib einen gültigen API Key ein!');
-            }
-        }
 
         // Load Schools CSV
         async function loadFromGitHub() {
             try {
-                showStatus('📚 Lade Schuldaten...');
+                showStatus('Loading school data...');
                 
                 let csvData;
                 try {
@@ -523,7 +483,7 @@
             } catch (error) {
                 console.error('Failed to load from GitHub:', error);
                 document.getElementById('uploadFallback').style.display = 'block';
-                showError('Fehler beim Laden der Schuldaten.');
+                showError('Error loading school data.');
                 return false;
             }
         }
@@ -533,7 +493,7 @@
             const file = fileInput.files[0];
             
             if (!file) {
-                showError('Bitte wähle eine CSV-Datei aus!');
+                showError('Please select a CSV file!');
                 return;
             }
             
@@ -579,14 +539,14 @@
                     
                     if (typeValue === 'prim' || typeValue.includes('prim')) {
                         schoolType = 'primaria';
-                        displayType = 'Grundschule';
+                        displayType = 'Primary School';
                     } else if (typeValue.includes('sec')) {
                         if (typeValue.includes('ii') || typeValue === 'sec ii') {
                             schoolType = 'secondaria_ii';
-                            displayType = 'Oberschule';
+                            displayType = 'High School';
                         } else {
                             schoolType = 'secondaria_i';
-                            displayType = 'Mittelschule';
+                            displayType = 'Middle School';
                         }
                     }
                     
@@ -612,7 +572,7 @@
                 updateVisibleSchools();
                 
                 document.getElementById('statusMessage').innerHTML = '';
-                showStatus(`✅ ${schoolsData.length} Schulen geladen!`);
+                showStatus(`${schoolsData.length} schools loaded!`);
                 setTimeout(() => {
                     document.getElementById('statusMessage').innerHTML = '';
                 }, 3000);
@@ -621,147 +581,177 @@
                 
             } catch (error) {
                 console.error('Error processing school data:', error);
-                showError('Fehler beim Verarbeiten der Schuldaten: ' + error.message);
+                showError('Error processing school data: ' + error.message);
                 return false;
             }
         }
 
-        // Property Search with Idealista API
+        // Property Search
         async function searchProperties() {
             const location = document.getElementById('propertyLocation').value.trim();
             
             if (!location) {
-                showError('Bitte gib einen Ort ein!');
+                showError('Please enter a city!');
                 return;
             }
             
-            if (!apiKey) {
-                showError('Bitte gib zuerst deinen RapidAPI Key ein!');
-                return;
-            }
-            
-            showStatus('🏠 Suche Immobilien auf Idealista...');
+            showStatus('Searching for properties on Idealista...');
+            console.log('Searching properties in:', location);
             
             try {
                 // Step 1: Get location ID
                 const locationId = await getLocationId(location);
+                
                 if (!locationId) {
-                    showError('Ort nicht gefunden. Versuche es mit einem anderen Namen.');
+                    showError('Location not found. Try another city name (e.g. Palermo, Catania, Taormina)');
                     return;
                 }
                 
-                // Step 2: Search properties
+                console.log('Location ID found:', locationId);
+                
+                // Step 2: Fetch properties
                 const properties = await fetchProperties(locationId);
                 
                 if (properties && properties.length > 0) {
                     allPropertiesData = properties;
                     applyFilters();
-                    showStatus(`✅ ${properties.length} Immobilien gefunden!`);
+                    showStatus(`${properties.length} properties found!`);
                     setTimeout(() => {
                         document.getElementById('statusMessage').innerHTML = '';
                     }, 3000);
                 } else {
-                    showError('Keine Immobilien gefunden.');
+                    showError('No properties found. Try adjusting filters or another location.');
                 }
                 
             } catch (error) {
                 console.error('Error searching properties:', error);
-                showError('Fehler bei der Suche: ' + error.message);
+                showError('Error searching properties: ' + error.message);
             }
         }
 
         async function getLocationId(locationName) {
             const url = 'https://idealista7.p.rapidapi.com/locations';
-            const options = {
-                method: 'GET',
-                headers: {
-                    'x-rapidapi-key': apiKey,
-                    'x-rapidapi-host': 'idealista7.p.rapidapi.com'
-                }
-            };
             
             try {
-                const response = await fetch(`${url}?text=${encodeURIComponent(locationName)}&country=it`, options);
+                console.log('Fetching location ID for:', locationName);
+                
+                const response = await fetch(`${url}?text=${encodeURIComponent(locationName)}&country=it&propertyType=homes`, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-key': apiKey,
+                        'x-rapidapi-host': 'idealista7.p.rapidapi.com'
+                    }
+                });
+                
+                console.log('Location API status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Location API response:', data);
                 
                 if (data && data.locations && data.locations.length > 0) {
+                    console.log('Found location ID:', data.locations[0].id);
                     return data.locations[0].id;
                 }
+                
                 return null;
             } catch (error) {
                 console.error('Error getting location ID:', error);
-                return null;
+                throw error;
             }
         }
 
         async function fetchProperties(locationId) {
-            const propertyType = document.getElementById('propertyType').value || 'homes';
+            const propertyType = document.getElementById('propertyType').value;
+            const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+            const maxPrice = parseInt(document.getElementById('maxPrice').value) || 10000000;
+            const minSize = parseInt(document.getElementById('minSize').value) || 0;
+            
             const url = 'https://idealista7.p.rapidapi.com/properties';
             
-            const options = {
-                method: 'GET',
-                headers: {
-                    'x-rapidapi-key': apiKey,
-                    'x-rapidapi-host': 'idealista7.p.rapidapi.com'
-                }
-            };
-            
-            const params = new URLSearchParams({
-                locationId: locationId,
-                operation: 'sale',
-                propertyType: propertyType,
-                numPage: '1',
-                maxItems: '50',
-                country: 'it',
-                order: 'priceDown'
-            });
-            
             try {
-                const response = await fetch(`${url}?${params}`, options);
+                console.log('Fetching properties with params:', {
+                    locationId,
+                    propertyType,
+                    minPrice,
+                    maxPrice,
+                    minSize
+                });
+                
+                const params = new URLSearchParams({
+                    locationId: locationId,
+                    operation: 'sale',
+                    propertyType: propertyType,
+                    numPage: '1',
+                    maxItems: '50',
+                    country: 'it',
+                    order: 'priceDown'
+                });
+                
+                const response = await fetch(`${url}?${params}`, {
+                    method: 'GET',
+                    headers: {
+                        'x-rapidapi-key': apiKey,
+                        'x-rapidapi-host': 'idealista7.p.rapidapi.com'
+                    }
+                });
+                
+                console.log('Properties API status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Properties API response:', data);
                 
                 if (data && data.elementList) {
-                    return data.elementList.map(prop => ({
-                        id: prop.propertyCode || Date.now() + Math.random(),
-                        address: prop.address || 'Keine Adresse',
-                        price: prop.price || 0,
-                        rooms: prop.rooms || 0,
-                        size: prop.size || 0,
-                        lat: prop.latitude,
-                        lon: prop.longitude,
-                        url: `https://www.idealista.it/immobile/${prop.propertyCode}`,
-                        thumbnail: prop.thumbnail || '',
-                        description: prop.description || '',
-                        floor: prop.floor || '',
-                        bathrooms: prop.bathrooms || 0
-                    })).filter(prop => prop.lat && prop.lon);
+                    const properties = data.elementList
+                        .filter(prop => prop.latitude && prop.longitude)
+                        .map(prop => ({
+                            id: prop.propertyCode || (Date.now() + Math.random()),
+                            address: prop.address || 'No address',
+                            price: prop.price || 0,
+                            rooms: prop.rooms || 0,
+                            size: prop.size || 0,
+                            lat: prop.latitude,
+                            lon: prop.longitude,
+                            url: `https://www.idealista.it/immobile/${prop.propertyCode}`,
+                            thumbnail: prop.thumbnail || '',
+                            description: prop.description || '',
+                            floor: prop.floor || '',
+                            bathrooms: prop.bathrooms || 0
+                        }));
+                    
+                    console.log(`Processed ${properties.length} properties with coordinates`);
+                    return properties;
                 }
+                
                 return [];
             } catch (error) {
                 console.error('Error fetching properties:', error);
-                return [];
+                throw error;
             }
         }
 
         function applyFilters() {
             const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
             const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
-            const minRooms = parseInt(document.getElementById('minRooms').value) || 0;
             const minSize = parseInt(document.getElementById('minSize').value) || 0;
             
             propertiesData = allPropertiesData.filter(prop => {
                 return prop.price >= minPrice &&
                        prop.price <= maxPrice &&
-                       prop.rooms >= minRooms &&
                        prop.size >= minSize;
             });
             
+            console.log(`Filtered to ${propertiesData.length} properties`);
+            
             updatePropertiesOnMap();
             updateVisibleProperties();
-            
-            if (propertiesData.length === 0) {
-                showError('Keine Immobilien entsprechen den Filterkriterien.');
-            }
         }
 
         // Map Functions
@@ -817,10 +807,10 @@
                 }).bindPopup(`
                     <div style="font-family: inherit; max-width: 250px;">
                         <h3 style="color: ${color}; margin: 0 0 10px 0;">${school.name}</h3>
-                        <p><strong>Typ:</strong> ${school.typeDisplay}</p>
-                        <p><strong>Schüler:</strong> ${school.students > 0 ? school.students : 'N/A'}</p>
-                        <p><strong>Adresse:</strong> ${school.address}</p>
-                        <p><strong>Stadt:</strong> ${school.city}</p>
+                        <p><strong>Type:</strong> ${school.typeDisplay}</p>
+                        <p><strong>Students:</strong> ${school.students > 0 ? school.students : 'N/A'}</p>
+                        <p><strong>Address:</strong> ${school.address}</p>
+                        <p><strong>City:</strong> ${school.city}</p>
                     </div>
                 `).addTo(markersGroup);
             });
@@ -830,7 +820,35 @@
         }
 
         function updatePropertiesOnMap() {
+            markersGroup.clearLayers();
+            
+            schoolsData.forEach(school => {
+                const color = getSchoolColor(school);
+                const radius = school.students ? Math.max(4, Math.min(15, 4 + (school.students / 80))) : 4;
+                
+                L.circleMarker([school.lat, school.lon], {
+                    radius: radius,
+                    fillColor: color,
+                    color: 'white',
+                    weight: 2,
+                    fillOpacity: 0.8
+                }).bindPopup(`
+                    <div style="font-family: inherit; max-width: 250px;">
+                        <h3 style="color: ${color}; margin: 0 0 10px 0;">${school.name}</h3>
+                        <p><strong>Type:</strong> ${school.typeDisplay}</p>
+                        <p><strong>Students:</strong> ${school.students > 0 ? school.students : 'N/A'}</p>
+                        <p><strong>Address:</strong> ${school.address}</p>
+                        <p><strong>City:</strong> ${school.city}</p>
+                    </div>
+                `).addTo(markersGroup);
+            });
+            
             propertiesData.forEach(prop => {
+                const nearbySchools = schoolsData.filter(school => {
+                    const dist = calculateDistance(prop.lat, prop.lon, school.lat, school.lon);
+                    return dist <= 1000;
+                }).length;
+                
                 L.circleMarker([prop.lat, prop.lon], {
                     radius: 12,
                     fillColor: '#FF1744',
@@ -838,25 +856,31 @@
                     weight: 3,
                     fillOpacity: 0.9
                 }).bindPopup(`
-                    <div style="font-family: inherit; max-width: 280px;">
-                        <h3 style="color: #FF1744; margin: 0 0 10px 0;">🏠 ${prop.address}</h3>
+                    <div style="font-family: inherit; max-width: 300px;">
+                        <h3 style="color: #FF1744; margin: 0 0 10px 0;">${prop.address}</h3>
                         ${prop.thumbnail ? `<img src="${prop.thumbnail}" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">` : ''}
-                        <p><strong>💰 Preis:</strong> €${prop.price.toLocaleString()}</p>
-                        <p><strong>🛏️ Zimmer:</strong> ${prop.rooms}</p>
-                        <p><strong>📐 Größe:</strong> ${prop.size}m²</p>
-                        ${prop.bathrooms ? `<p><strong>🚿 Bäder:</strong> ${prop.bathrooms}</p>` : ''}
-                        <a href="${prop.url}" target="_blank" style="color: #FF1744; font-weight: 600;">🔗 Auf Idealista ansehen</a>
+                        <p><strong>Price:</strong> €${prop.price.toLocaleString()}</p>
+                        <p><strong>Rooms:</strong> ${prop.rooms}</p>
+                        <p><strong>Size:</strong> ${prop.size}m²</p>
+                        ${prop.size > 0 && prop.price > 0 ? `<p><strong>€/m²:</strong> €${Math.round(prop.price / prop.size)}</p>` : ''}
+                        <p style="background: var(--gs-yellow); padding: 8px; border-radius: 5px; margin-top: 8px;">
+                            <strong>${nearbySchools} schools within 1km</strong>
+                        </p>
+                        <a href="${prop.url}" target="_blank" style="color: #FF1744; font-weight: 600; display: block; margin-top: 8px;">View on Idealista</a>
                     </div>
                 `).addTo(markersGroup);
             });
+            
+            if (propertiesData.length > 0) {
+                const bounds = L.latLngBounds(propertiesData.map(p => [p.lat, p.lon]));
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
         }
 
         function updateVisibleSchools() {
             if (!map || !schoolsData) return;
-            
             const bounds = map.getBounds();
             const visible = schoolsData.filter(s => bounds.contains([s.lat, s.lon]));
-            
             displaySchools(visible);
         }
 
@@ -871,8 +895,8 @@
             const totalStudents = schools.reduce((sum, s) => sum + s.students, 0);
             
             stats.innerHTML = `<div class="stats">
-                🏫 ${schools.length} Schulen<br>
-                👥 ${totalStudents.toLocaleString()} Schüler gesamt
+                ${schools.length} Schools<br>
+                ${totalStudents.toLocaleString()} Total Students
             </div>`;
             
             container.innerHTML = schools.slice(0, 20).map(s => `
@@ -880,15 +904,15 @@
                     <div class="card-header">${s.name}</div>
                     <div class="card-info">
                         <div class="info-row">
-                            <span class="info-label">Typ:</span>
+                            <span class="info-label">Type:</span>
                             <span>${s.typeDisplay}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Schüler:</span>
+                            <span class="info-label">Students:</span>
                             <span>${s.students > 0 ? s.students : 'N/A'}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">Stadt:</span>
+                            <span class="info-label">City:</span>
                             <span>${s.city}</span>
                         </div>
                     </div>
@@ -900,38 +924,44 @@
             const container = document.getElementById('propertyResults');
             const stats = document.getElementById('propertiesStats');
             
-            const avgPrice = properties.length > 0 ? 
-                properties.reduce((sum, p) => sum + p.price, 0) / properties.length : 0;
+            if (properties.length === 0) {
+                stats.innerHTML = `<div class="stats">No properties loaded</div>`;
+                container.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">Search for a city to see properties.</p>`;
+                return;
+            }
+            
+            const avgPrice = properties.reduce((sum, p) => sum + p.price, 0) / properties.length;
             
             stats.innerHTML = `<div class="stats">
-                🏠 ${properties.length} Immobilien<br>
-                💰 Ø €${Math.round(avgPrice).toLocaleString()}
+                ${properties.length} Properties<br>
+                Avg €${Math.round(avgPrice).toLocaleString()}
             </div>`;
             
             container.innerHTML = properties.map(p => `
                 <div class="property-card card" onclick="focusOnMap(${p.lat}, ${p.lon})">
                     <input type="checkbox" class="compare-checkbox" 
+                           ${selectedForComparison.includes(p.id) ? 'checked' : ''}
                            onchange="toggleComparison('${p.id}')" 
                            onclick="event.stopPropagation()">
                     <div class="price-tag">€${p.price.toLocaleString()}</div>
                     <div class="card-header">${p.address}</div>
                     <div class="card-info">
                         <div class="info-row">
-                            <span class="info-label">🛏️ Zimmer:</span>
+                            <span class="info-label">Rooms:</span>
                             <span>${p.rooms}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">📐 Größe:</span>
+                            <span class="info-label">Size:</span>
                             <span>${p.size}m²</span>
                         </div>
-                        ${p.bathrooms ? `
+                        ${p.size > 0 && p.price > 0 ? `
                         <div class="info-row">
-                            <span class="info-label">🚿 Bäder:</span>
-                            <span>${p.bathrooms}</span>
+                            <span class="info-label">€/m²:</span>
+                            <span>€${Math.round(p.price / p.size)}</span>
                         </div>` : ''}
                         <a href="${p.url}" target="_blank" onclick="event.stopPropagation()" 
                            style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">
-                            🔗 Details ansehen
+                            View Details
                         </a>
                     </div>
                 </div>
@@ -942,7 +972,6 @@
             map.setView([lat, lon], 17);
         }
 
-        // Comparison Functions
         function toggleComparison(propertyId) {
             const index = selectedForComparison.indexOf(propertyId);
             if (index > -1) {
@@ -950,7 +979,6 @@
             } else {
                 selectedForComparison.push(propertyId);
             }
-            
             updateComparison();
         }
 
@@ -967,29 +995,39 @@
             
             const selected = propertiesData.filter(p => selectedForComparison.includes(p.id));
             
-            grid.innerHTML = selected.map(p => `
+            grid.innerHTML = selected.map(p => {
+                const nearbySchools = schoolsData.filter(school => {
+                    const dist = calculateDistance(p.lat, p.lon, school.lat, school.lon);
+                    return dist <= 1000;
+                }).length;
+                
+                return `
                 <div class="card property-card">
                     <div class="price-tag">€${p.price.toLocaleString()}</div>
                     <div class="card-header">${p.address}</div>
                     <div class="card-info">
                         <div class="info-row">
-                            <span class="info-label">🛏️ Zimmer:</span>
+                            <span class="info-label">Rooms:</span>
                             <span>${p.rooms}</span>
                         </div>
                         <div class="info-row">
-                            <span class="info-label">📐 Größe:</span>
+                            <span class="info-label">Size:</span>
                             <span>${p.size}m²</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">€/m²:</span>
                             <span>€${Math.round(p.price / p.size)}</span>
                         </div>
-                        <a href="${p.url}" target="_blank" style="color: var(--gs-red); font-weight: 600;">
-                            🔗 Details
+                        <div class="info-row" style="background: var(--gs-yellow); padding: 8px; border-radius: 5px; margin-top: 8px;">
+                            <span class="info-label">Schools (1km):</span>
+                            <span><strong>${nearbySchools}</strong></span>
+                        </div>
+                        <a href="${p.url}" target="_blank" style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">
+                            Details
                         </a>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         function closeComparison() {
@@ -998,7 +1036,6 @@
             document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
         }
 
-        // Geocoding
         async function geocodeAddress(address) {
             const encodedAddress = encodeURIComponent(address + ', Sicilia, Italia');
             const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedAddress}&limit=1`;
@@ -1035,7 +1072,6 @@
             return R * c;
         }
 
-        // Status Messages
         function showStatus(message) {
             document.getElementById('statusMessage').innerHTML = `<div class="loading">${message}</div>`;
         }
@@ -1044,7 +1080,6 @@
             document.getElementById('statusMessage').innerHTML = `<div class="error">${message}</div>`;
         }
 
-        // Event Listeners
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const address = document.getElementById('addressInput').value.trim();
@@ -1055,11 +1090,11 @@
                 return;
             }
             
-            showStatus('🔍 Suche Adresse...');
+            showStatus('Searching address...');
             const location = await geocodeAddress(address);
             
             if (!location) {
-                showError('Adresse nicht gefunden.');
+                showError('Address not found.');
                 return;
             }
             
@@ -1080,6 +1115,21 @@
         document.getElementById('propertySearchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             await searchProperties();
+        });
+
+        // Auto-apply filters when changed
+        document.getElementById('minPrice').addEventListener('change', () => {
+            if (allPropertiesData.length > 0) applyFilters();
+        });
+        document.getElementById('maxPrice').addEventListener('change', () => {
+            if (allPropertiesData.length > 0) applyFilters();
+        });
+        document.getElementById('minSize').addEventListener('change', () => {
+            if (allPropertiesData.length > 0) applyFilters();
+        });
+        document.getElementById('propertyType').addEventListener('change', async () => {
+            const location = document.getElementById('propertyLocation').value.trim();
+            if (location) await searchProperties();
         });
 
         window.addEventListener('load', async () => {
