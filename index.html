@@ -360,9 +360,30 @@
         <!-- Property Search -->
         <div class="search-section">
             <h3 style="color: var(--gs-red); margin-bottom: 15px;">Search Properties</h3>
-            <form class="search-form" id="propertySearchForm">
-                <input type="text" id="propertyLocation" class="search-input" placeholder="City in Sicily (e.g. Palermo, Catania, Taormina)" required>
-                <button type="submit" class="search-btn property-btn">Load Properties</button>
+            
+            <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <strong>Quick Add:</strong> Find properties on <a href="https://www.idealista.it/vendita-case/sicilia/" target="_blank" style="color: var(--gs-red); font-weight: 600;">Idealista.it</a>, then paste the URL below to automatically add them to your map.
+            </div>
+            
+            <form class="search-form" id="propertyUrlForm" style="margin-bottom: 20px;">
+                <input type="url" id="propertyUrl" class="search-input" placeholder="Paste Idealista property URL here (e.g. https://www.idealista.it/immobile/...)" style="flex: 2;">
+                <button type="submit" class="search-btn property-btn">Add from URL</button>
+            </form>
+            
+            <div style="text-align: center; margin: 20px 0; color: #999; font-weight: 600;">OR</div>
+            
+            <form class="search-form" id="propertyManualForm" style="flex-direction: column; align-items: stretch; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h4 style="color: var(--gs-red); margin-bottom: 15px;">Add Property Manually</h4>
+                <input type="text" id="manualAddress" class="search-input" placeholder="Address (e.g. Via Roma 123, Palermo)" required style="width: 100%; margin-bottom: 10px;">
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                    <input type="number" id="manualPrice" class="search-input" placeholder="Price (€)">
+                    <input type="number" id="manualRooms" class="search-input" placeholder="Rooms">
+                    <input type="number" id="manualSize" class="search-input" placeholder="Size (m²)">
+                    <input type="number" id="manualBathrooms" class="search-input" placeholder="Bathrooms">
+                </div>
+                
+                <button type="submit" class="search-btn property-btn" style="margin-top: 15px;">Add Property</button>
             </form>
             
             <div class="filter-section">
@@ -379,13 +400,12 @@
                     <input type="number" id="minSize" placeholder="e.g. 60">
                 </div>
                 <div class="filter-group">
-                    <label>Property Type</label>
-                    <select id="propertyType">
-                        <option value="homes">Homes/Apartments</option>
-                        <option value="newHomes">New Developments</option>
-                        <option value="offices">Offices</option>
-                        <option value="premises">Commercial</option>
-                    </select>
+                    <label>&nbsp;</label>
+                    <button type="button" onclick="applyFilters()" class="search-btn">Apply Filters</button>
+                </div>
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button type="button" onclick="clearAllProperties()" class="search-btn property-btn">Clear All</button>
                 </div>
             </div>
         </div>
@@ -586,154 +606,91 @@
             }
         }
 
-        // Property Search
-        async function searchProperties() {
-            const location = document.getElementById('propertyLocation').value.trim();
+        // Property Management
+        async function addPropertyFromUrl() {
+            const url = document.getElementById('propertyUrl').value.trim();
             
-            if (!location) {
-                showError('Please enter a city!');
+            if (!url || !url.includes('idealista.it')) {
+                showError('Please enter a valid Idealista URL');
                 return;
             }
             
-            showStatus('Searching for properties on Idealista...');
-            console.log('Searching properties in:', location);
+            showStatus('Extracting property data from URL...');
             
-            try {
-                // Step 1: Get location ID
-                const locationId = await getLocationId(location);
-                
-                if (!locationId) {
-                    showError('Location not found. Try another city name (e.g. Palermo, Catania, Taormina)');
-                    return;
-                }
-                
-                console.log('Location ID found:', locationId);
-                
-                // Step 2: Fetch properties
-                const properties = await fetchProperties(locationId);
-                
-                if (properties && properties.length > 0) {
-                    allPropertiesData = properties;
-                    applyFilters();
-                    showStatus(`${properties.length} properties found!`);
-                    setTimeout(() => {
-                        document.getElementById('statusMessage').innerHTML = '';
-                    }, 3000);
-                } else {
-                    showError('No properties found. Try adjusting filters or another location.');
-                }
-                
-            } catch (error) {
-                console.error('Error searching properties:', error);
-                showError('Error searching properties: ' + error.message);
+            // Try to extract property ID from URL
+            const propertyIdMatch = url.match(/immobile\/(\d+)/);
+            if (!propertyIdMatch) {
+                showError('Could not extract property ID from URL. Please use manual entry instead.');
+                return;
             }
+            
+            // For now, ask user to fill in details manually since we can't scrape
+            showError('Direct URL scraping is not available. Please copy the property details and use manual entry below.');
+            document.getElementById('propertyUrl').value = '';
         }
 
-        async function getLocationId(locationName) {
-            const url = 'https://idealista7.p.rapidapi.com/locations';
-            
-            try {
-                console.log('Fetching location ID for:', locationName);
-                
-                const response = await fetch(`${url}?text=${encodeURIComponent(locationName)}&country=it&propertyType=homes`, {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-key': apiKey,
-                        'x-rapidapi-host': 'idealista7.p.rapidapi.com'
-                    }
-                });
-                
-                console.log('Location API status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`API returned status ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Location API response:', data);
-                
-                if (data && data.locations && data.locations.length > 0) {
-                    console.log('Found location ID:', data.locations[0].id);
-                    return data.locations[0].id;
-                }
-                
-                return null;
-            } catch (error) {
-                console.error('Error getting location ID:', error);
-                throw error;
+        async function addPropertyManually() {
+            const address = document.getElementById('manualAddress').value.trim();
+            const price = document.getElementById('manualPrice').value;
+            const rooms = document.getElementById('manualRooms').value;
+            const size = document.getElementById('manualSize').value;
+            const bathrooms = document.getElementById('manualBathrooms').value;
+
+            if (!address) {
+                showError('Please enter an address!');
+                return;
             }
+
+            showStatus('Geocoding address...');
+
+            const location = await geocodeAddress(address);
+            if (!location) {
+                showError('Address not found. Please check your input.');
+                return;
+            }
+
+            const property = {
+                id: Date.now() + Math.random(),
+                address: address,
+                price: price ? parseInt(price) : 0,
+                rooms: rooms ? parseInt(rooms) : 0,
+                size: size ? parseInt(size) : 0,
+                bathrooms: bathrooms ? parseInt(bathrooms) : 0,
+                url: null,
+                lat: location.lat,
+                lon: location.lon
+            };
+
+            allPropertiesData.push(property);
+            document.getElementById('manualAddress').value = '';
+            document.getElementById('manualPrice').value = '';
+            document.getElementById('manualRooms').value = '';
+            document.getElementById('manualSize').value = '';
+            document.getElementById('manualBathrooms').value = '';
+            
+            applyFilters();
+            
+            document.getElementById('statusMessage').innerHTML = '';
+            showStatus('Property added successfully!');
+            setTimeout(() => {
+                document.getElementById('statusMessage').innerHTML = '';
+            }, 3000);
+
+            map.setView([property.lat, property.lon], 15);
         }
 
-        async function fetchProperties(locationId) {
-            const propertyType = document.getElementById('propertyType').value;
-            const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
-            const maxPrice = parseInt(document.getElementById('maxPrice').value) || 10000000;
-            const minSize = parseInt(document.getElementById('minSize').value) || 0;
-            
-            const url = 'https://idealista7.p.rapidapi.com/properties';
-            
-            try {
-                console.log('Fetching properties with params:', {
-                    locationId,
-                    propertyType,
-                    minPrice,
-                    maxPrice,
-                    minSize
-                });
-                
-                const params = new URLSearchParams({
-                    locationId: locationId,
-                    operation: 'sale',
-                    propertyType: propertyType,
-                    numPage: '1',
-                    maxItems: '50',
-                    country: 'it',
-                    order: 'priceDown'
-                });
-                
-                const response = await fetch(`${url}?${params}`, {
-                    method: 'GET',
-                    headers: {
-                        'x-rapidapi-key': apiKey,
-                        'x-rapidapi-host': 'idealista7.p.rapidapi.com'
-                    }
-                });
-                
-                console.log('Properties API status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`API returned status ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Properties API response:', data);
-                
-                if (data && data.elementList) {
-                    const properties = data.elementList
-                        .filter(prop => prop.latitude && prop.longitude)
-                        .map(prop => ({
-                            id: prop.propertyCode || (Date.now() + Math.random()),
-                            address: prop.address || 'No address',
-                            price: prop.price || 0,
-                            rooms: prop.rooms || 0,
-                            size: prop.size || 0,
-                            lat: prop.latitude,
-                            lon: prop.longitude,
-                            url: `https://www.idealista.it/immobile/${prop.propertyCode}`,
-                            thumbnail: prop.thumbnail || '',
-                            description: prop.description || '',
-                            floor: prop.floor || '',
-                            bathrooms: prop.bathrooms || 0
-                        }));
-                    
-                    console.log(`Processed ${properties.length} properties with coordinates`);
-                    return properties;
-                }
-                
-                return [];
-            } catch (error) {
-                console.error('Error fetching properties:', error);
-                throw error;
+        function clearAllProperties() {
+            if (confirm('Remove all properties from the map?')) {
+                allPropertiesData = [];
+                propertiesData = [];
+                selectedForComparison = [];
+                updatePropertiesOnMap();
+                updateVisibleProperties();
+                closeComparison();
+                showStatus('All properties removed!');
+                setTimeout(() => {
+                    document.getElementById('statusMessage').innerHTML = '';
+                }, 2000);
             }
         }
 
@@ -1112,9 +1069,14 @@
             document.getElementById('statusMessage').innerHTML = '';
         });
 
-        document.getElementById('propertySearchForm').addEventListener('submit', async (e) => {
+        document.getElementById('propertyUrlForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            await searchProperties();
+            await addPropertyFromUrl();
+        });
+
+        document.getElementById('propertyManualForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addPropertyManually();
         });
 
         // Auto-apply filters when changed
@@ -1126,10 +1088,6 @@
         });
         document.getElementById('minSize').addEventListener('change', () => {
             if (allPropertiesData.length > 0) applyFilters();
-        });
-        document.getElementById('propertyType').addEventListener('change', async () => {
-            const location = document.getElementById('propertyLocation').value.trim();
-            if (location) await searchProperties();
         });
 
         window.addEventListener('load', async () => {
