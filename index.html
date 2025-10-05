@@ -591,7 +591,7 @@
             }
         }
 
-        // Property Search
+        // Property Search - NO /locations endpoint, direct locationID mapping
         async function searchProperties() {
             const location = document.getElementById('propertyLocation').value.trim().toLowerCase();
             const propertyType = document.getElementById('propertyType').value;
@@ -601,6 +601,7 @@
                 return;
             }
             
+            // LocationIDs from your Google Apps Script
             const locationMap = {
                 'catania': { id: '0-EU-IT-CT', name: 'Catania' },
                 'palermo': { id: '0-EU-IT-PA', name: 'Palermo' },
@@ -655,13 +656,15 @@
                 };
                 
                 const endpoint = endpointMap[propertyType] || 'listhomes';
+                
+                // Get operation type (rent or sale) from dropdown
                 const operation = document.getElementById('operationType').value;
                 
                 const params = new URLSearchParams({
                     order: 'relevance',
                     operation: operation,
                     locationId: locationData.id,
-                    maxItems: '100',
+                    maxItems: '200',
                     locationName: locationData.name,
                     numPage: '1',
                     location: 'it',
@@ -691,25 +694,11 @@
                 console.log('API response:', data.elementList ? `${data.elementList.length} items found` : 'No items');
                 
                 if (data && data.elementList) {
-                    console.log(`Raw API response: ${data.elementList.length} properties`);
-                    
-                    let noCoords = 0, noThumbnail = 0, sharedSpace = 0;
-                    
                     const properties = data.elementList
                         .filter(prop => {
-                            if (!prop.latitude || !prop.longitude) {
-                                noCoords++;
-                                return false;
-                            }
-                            
                             const hasThumbnail = prop.thumbnail && prop.thumbnail.trim() !== "";
-                            const description = (prop.description || '').toLowerCase();
-                            const isSharedSpace = /\b(coworking|co-working|spazio condiviso|postazione condivisa|hot.?desk)\b/i.test(description);
-                            
-                            if (!hasThumbnail) noThumbnail++;
-                            if (isSharedSpace) sharedSpace++;
-                            
-                            return !isSharedSpace;
+                            const isNotSharedSpace = !/\b(dedicati|private|dedicated|cowork|compartido|coworking)\b/i.test(prop.description || '');
+                            return prop.latitude && prop.longitude && hasThumbnail && isNotSharedSpace;
                         })
                         .map(prop => ({
                             id: prop.propertyCode || (Date.now() + Math.random()),
@@ -726,8 +715,7 @@
                             bathrooms: prop.bathrooms || 0
                         }));
                     
-                    console.log(`Filtered: ${noCoords} no coords, ${noThumbnail} no thumbnail, ${sharedSpace} shared spaces`);
-                    console.log(`Final properties: ${properties.length}`);
+                    console.log(`Processed ${properties.length} properties after filtering`);
                     return properties;
                 }
                 
@@ -868,6 +856,7 @@
                 const nearbySchoolsCount = nearbySchoolsData.length;
                 const totalStudents = nearbySchoolsData.reduce((sum, school) => sum + school.students, 0);
                 
+                // 1km Radius-Kreis um die Property
                 L.circle([prop.lat, prop.lon], {
                     radius: 1000,
                     fillColor: '#FF1744',
@@ -878,6 +867,7 @@
                     dashArray: '5, 10'
                 }).addTo(markersGroup);
                 
+                // Property marker
                 L.circleMarker([prop.lat, prop.lon], {
                     radius: 12,
                     fillColor: '#FF1744',
@@ -887,14 +877,9 @@
                 }).bindPopup(`
                     <div style="font-family: inherit; max-width: 300px;">
                         <h3 style="color: #FF1744; margin: 0 0 10px 0;">${prop.address}</h3>
-                        ${prop.thumbnail ? 
-                            `<img src="${prop.thumbnail}" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">` : 
-                            `<div style="width: 100%; padding: 40px; background: linear-gradient(135deg, #E3E8F6 0%, #ffffff 100%); border-radius: 8px; margin-bottom: 10px; text-align: center; color: #092FAC; font-weight: 600;">
-                                📷 No Image Available
-                            </div>`
-                        }
+                        ${prop.thumbnail ? `<img src="${prop.thumbnail}" style="width: 100%; border-radius: 8px; margin-bottom: 10px;">` : ''}
                         <p><strong>Price:</strong> €${prop.price.toLocaleString()}</p>
-                        <p><strong>Rooms:</strong> ${prop.rooms || 'N/A'}</p>
+                        <p><strong>Rooms:</strong> ${prop.rooms}</p>
                         <p><strong>Size:</strong> ${prop.size}m²</p>
                         ${prop.size > 0 && prop.price > 0 ? `<p><strong>€/m²:</strong> €${Math.round(prop.price / prop.size)}</p>` : ''}
                         <div style="margin-top: 12px; padding: 10px; background: #FFD363; border-radius: 6px; color: #041345;">
@@ -915,9 +900,11 @@
         function updateVisibleSchools() {
             if (!map || !schoolsData) return;
             
+            // Wenn Properties geladen sind, zeige ALLE Schulen in der Liste
             if (propertiesData.length > 0) {
                 displaySchools(schoolsData);
             } else {
+                // Sonst zeige nur Schulen im sichtbaren Bereich
                 const bounds = map.getBounds();
                 const visible = schoolsData.filter(s => bounds.contains([s.lat, s.lon]));
                 displaySchools(visible);
@@ -983,18 +970,13 @@
                            ${selectedForComparison.includes(p.id) ? 'checked' : ''}
                            onchange="toggleComparison('${p.id}')" 
                            onclick="event.stopPropagation()">
-                    ${p.thumbnail ? 
-                        `<img src="${p.thumbnail}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">` : 
-                        `<div style="width: 100%; height: 120px; background: linear-gradient(135deg, #E3E8F6 0%, #ffffff 100%); border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: #092FAC; font-weight: 600;">
-                            <span>📷 No Image</span>
-                        </div>`
-                    }
+                    ${p.thumbnail ? `<img src="${p.thumbnail}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">` : ''}
                     <div class="price-tag">€${p.price.toLocaleString()}</div>
                     <div class="card-header">${p.address}</div>
                     <div class="card-info">
                         <div class="info-row">
                             <span class="info-label">Rooms:</span>
-                            <span>${p.rooms || 'N/A'}</span>
+                            <span>${p.rooms}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Size:</span>
@@ -1054,7 +1036,7 @@
                     <div class="card-info">
                         <div class="info-row">
                             <span class="info-label">Rooms:</span>
-                            <span>${p.rooms || 'N/A'}</span>
+                            <span>${p.rooms}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Size:</span>
