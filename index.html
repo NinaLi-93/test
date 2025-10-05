@@ -360,6 +360,13 @@
             <h3 style="color: var(--gs-red); margin-bottom: 15px;">Search Properties</h3>
             <form class="search-form" id="propertySearchForm">
                 <input type="text" id="propertyLocation" class="search-input" placeholder="City: Catania, Palermo, Messina, Siracusa, Trapani, Ragusa, Agrigento" required>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label for="operationType">Type:</label>
+                    <select id="operationType" style="padding: 12px; border: 2px solid var(--gs-light-blue); border-radius: 8px;">
+                        <option value="rent">Rent</option>
+                        <option value="sale">Sale</option>
+                    </select>
+                </div>
                 <button type="submit" class="search-btn property-btn">Load Properties</button>
             </form>
             
@@ -650,9 +657,12 @@
                 
                 const endpoint = endpointMap[propertyType] || 'listhomes';
                 
+                // Get operation type (rent or sale) from dropdown
+                const operation = document.getElementById('operationType').value;
+                
                 const params = new URLSearchParams({
                     order: 'relevance',
-                    operation: 'sale',
+                    operation: operation,
                     locationId: locationData.id,
                     maxItems: '40',
                     locationName: locationData.name,
@@ -843,7 +853,8 @@
                     return dist <= 1000;
                 }).length;
                 
-                L.circleMarker([prop.lat, prop.lon], {
+                // Property marker
+                const propertyMarker = L.circleMarker([prop.lat, prop.lon], {
                     radius: 12,
                     fillColor: '#FF1744',
                     color: '#FFD700',
@@ -857,12 +868,32 @@
                         <p><strong>Rooms:</strong> ${prop.rooms}</p>
                         <p><strong>Size:</strong> ${prop.size}m²</p>
                         ${prop.size > 0 && prop.price > 0 ? `<p><strong>€/m²:</strong> €${Math.round(prop.price / prop.size)}</p>` : ''}
-                        <p style="background: var(--gs-yellow); padding: 8px; border-radius: 5px; margin-top: 8px;">
-                            <strong>${nearbySchools} schools within 1km</strong>
-                        </p>
                         <a href="${prop.url}" target="_blank" style="color: #FF1744; font-weight: 600; display: block; margin-top: 8px;">View on Idealista</a>
                     </div>
                 `).addTo(markersGroup);
+                
+                // School count label next to property marker
+                const schoolIcon = L.divIcon({
+                    className: 'school-count-label',
+                    html: `<div style="
+                        background: #FFD363;
+                        color: #041345;
+                        padding: 4px 8px;
+                        border-radius: 12px;
+                        font-weight: 700;
+                        font-size: 11px;
+                        border: 2px solid white;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                        white-space: nowrap;
+                    ">🏫 ${nearbySchools}</div>`,
+                    iconSize: [40, 20],
+                    iconAnchor: [20, 10]
+                });
+                
+                L.marker([prop.lat, prop.lon], { 
+                    icon: schoolIcon,
+                    zIndexOffset: 1000
+                }).addTo(markersGroup);
             });
             
             if (propertiesData.length > 0) {
