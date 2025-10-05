@@ -22,306 +22,46 @@
             --gs-yellow: #FFD363;
             --gs-red: #FF1744;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Raleway', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--gs-light-blue) 0%, #ffffff 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: var(--gs-dark-blue);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(9, 47, 172, 0.3);
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .search-section {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .search-form {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 15px;
-            border: 2px solid var(--gs-light-blue);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--gs-dark-blue);
-            box-shadow: 0 0 15px rgba(9, 47, 172, 0.2);
-        }
-
-        .search-btn {
-            background: var(--gs-dark-blue);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .search-btn:hover {
-            background: var(--gs-very-dark-blue);
-            transform: translateY(-2px);
-        }
-
-        .search-btn.property-btn {
-            background: var(--gs-red);
-        }
-
-        .search-btn.property-btn:hover {
-            background: #c41230;
-        }
-
-        .filter-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid var(--gs-light-blue);
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .filter-group label {
-            font-weight: 600;
-            color: var(--gs-dark-blue);
-            font-size: 0.9rem;
-        }
-
-        .filter-group input, .filter-group select {
-            padding: 10px;
-            border: 2px solid var(--gs-light-blue);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 350px 1fr 350px;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .side-panel {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        .map-panel {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            height: 85vh;
-        }
-
-        #map {
-            height: calc(100% - 20px);
-            border-radius: 10px;
-            z-index: 1;
-        }
-
-        .card {
-            background: var(--gs-light-blue);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--gs-dark-blue);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .property-card {
-            border-left-color: var(--gs-red);
-            position: relative;
-        }
-
-        .card-header {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--gs-very-dark-blue);
-            margin-bottom: 8px;
-        }
-
-        .card-info {
-            display: grid;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: var(--gs-dark-blue);
-        }
-
-        .price-tag {
-            background: var(--gs-green);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-
-        .compare-checkbox {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .stats {
-            background: var(--gs-yellow);
-            color: var(--gs-very-dark-blue);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--gs-dark-blue);
-            font-size: 1.1rem;
-        }
-
-        .error {
-            background: var(--gs-pink);
-            color: var(--gs-very-dark-blue);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            font-weight: 500;
-        }
-
-        .legend {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-            font-size: 0.85rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 5px;
-        }
-
-        .legend-color {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .comparison-panel {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            z-index: 2000;
-            max-width: 90vw;
-            display: none;
-        }
-
-        .comparison-panel.active {
-            display: block;
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 1400px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .side-panel {
-                max-height: 60vh;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Raleway', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, var(--gs-light-blue) 0%, #ffffff 100%); min-height: 100vh; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
+        .header { background: var(--gs-dark-blue); color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 8px 32px rgba(9, 47, 172, 0.3); }
+        .header h1 { font-size: 2.5rem; margin-bottom: 10px; text-align: center; }
+        .search-section { background: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .search-form { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; }
+        .search-input { flex: 1; min-width: 250px; padding: 15px; border: 2px solid var(--gs-light-blue); border-radius: 10px; font-size: 16px; transition: all 0.3s ease; }
+        .search-input:focus { outline: none; border-color: var(--gs-dark-blue); box-shadow: 0 0 15px rgba(9, 47, 172, 0.2); }
+        .search-btn { background: var(--gs-dark-blue); color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .search-btn:hover { background: var(--gs-very-dark-blue); transform: translateY(-2px); }
+        .search-btn.property-btn { background: var(--gs-red); }
+        .search-btn.property-btn:hover { background: #c41230; }
+        .filter-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; padding-top: 15px; border-top: 2px solid var(--gs-light-blue); }
+        .filter-group { display: flex; flex-direction: column; gap: 8px; }
+        .filter-group label { font-weight: 600; color: var(--gs-dark-blue); font-size: 0.9rem; }
+        .filter-group input, .filter-group select { padding: 10px; border: 2px solid var(--gs-light-blue); border-radius: 8px; font-size: 14px; }
+        .main-content { display: grid; grid-template-columns: 350px 1fr 350px; gap: 20px; margin-top: 20px; }
+        .side-panel { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); max-height: 85vh; overflow-y: auto; }
+        .map-panel { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); height: 85vh; }
+        #map { height: calc(100% - 20px); border-radius: 10px; z-index: 1; }
+        .card { background: var(--gs-light-blue); border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gs-dark-blue); transition: all 0.3s ease; cursor: pointer; }
+        .card:hover { transform: translateX(5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .property-card { border-left-color: var(--gs-red); position: relative; }
+        .card-header { font-size: 1.1rem; font-weight: 700; color: var(--gs-very-dark-blue); margin-bottom: 8px; }
+        .card-info { display: grid; gap: 8px; margin-top: 10px; font-size: 0.9rem; }
+        .info-row { display: flex; justify-content: space-between; align-items: center; }
+        .info-label { font-weight: 600; color: var(--gs-dark-blue); }
+        .price-tag { background: var(--gs-green); color: white; padding: 5px 12px; border-radius: 20px; font-size: 1rem; font-weight: 700; display: inline-block; margin-bottom: 8px; }
+        .compare-checkbox { position: absolute; top: 15px; right: 15px; width: 20px; height: 20px; cursor: pointer; }
+        .stats { background: var(--gs-yellow); color: var(--gs-very-dark-blue); padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; font-size: 0.95rem; }
+        .loading { text-align: center; padding: 40px; color: var(--gs-dark-blue); font-size: 1.1rem; }
+        .error { background: var(--gs-pink); color: var(--gs-very-dark-blue); padding: 15px; border-radius: 10px; margin: 10px 0; font-weight: 500; }
+        .legend { position: absolute; top: 10px; right: 10px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; font-size: 0.85rem; }
+        .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+        .legend-color { width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .comparison-panel { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 2000; max-width: 90vw; display: none; }
+        .comparison-panel.active { display: block; }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
+        @media (max-width: 1400px) { .main-content { grid-template-columns: 1fr; } .side-panel { max-height: 60vh; } }
     </style>
 </head>
 <body>
@@ -462,15 +202,18 @@
         let userLocation = null;
         let markersGroup = null;
         let selectedForComparison = [];
+
+        // === CONFIG ===
         const apiKey = '538b2b6ab1msh1fb4def8de30ac4p141eb0jsn7e6241dc202f';
-
         const GITHUB_CSV_URL = 'https://raw.githubusercontent.com/NinaLi-93/sicily-schoolradar/main/sicily-schooldata.csv';
+        const PAGE_SIZE = 50;              // Listings pro Seite (vom API-Wrapper typischerweise akzeptiert)
+        const MAX_PAGES = 20;              // Sicherheitsbremse gegen unendliche Paginierung
+        const MAX_TOTAL_LISTINGS = 600;    // Gesamtes Ziel-Limit (anpassbar)
 
-        // School Loading
+        // ===== School Loading =====
         async function loadFromGitHub() {
             try {
                 showStatus('Loading school data...');
-                
                 let csvData;
                 try {
                     const response = await fetch(GITHUB_CSV_URL);
@@ -482,9 +225,7 @@
                     if (!response.ok) throw new Error(`Proxy failed: HTTP ${response.status}`);
                     csvData = await response.text();
                 }
-                
                 return processCSVData(csvData);
-                
             } catch (error) {
                 console.error('Failed to load from GitHub:', error);
                 document.getElementById('uploadFallback').style.display = 'block';
@@ -496,31 +237,20 @@
         function loadLocalCSV() {
             const fileInput = document.getElementById('csvFileInput');
             const file = fileInput.files[0];
-            
-            if (!file) {
-                showError('Please select a CSV file!');
-                return;
-            }
-            
+            if (!file) { showError('Please select a CSV file!'); return; }
             const reader = new FileReader();
-            reader.onload = function(e) {
-                processCSVData(e.target.result);
-            };
+            reader.onload = function(e) { processCSVData(e.target.result); };
             reader.readAsText(file);
         }
 
         function processCSVData(csvData) {
             try {
                 const parsedData = Papa.parse(csvData, {
-                    header: true,
-                    dynamicTyping: true,
-                    skipEmptyLines: true,
-                    delimiter: ',',
-                    delimitersToGuess: [',', ';', '\t']
+                    header: true, dynamicTyping: true, skipEmptyLines: true,
+                    delimiter: ',', delimitersToGuess: [',', ';', '\t']
                 });
                 
                 let latField, lonField, nameField, addressField, cityField, totalField, typeField;
-                
                 const fields = parsedData.meta.fields || [];
                 for (let field of fields) {
                     const lowerField = (field || '').toLowerCase().trim();
@@ -541,26 +271,20 @@
                     let schoolType = 'other';
                     let displayType = 'Other Schools';
                     const typeValue = (school[typeField] || '').toLowerCase().trim();
-                    
                     if (typeValue === 'prim' || typeValue.includes('prim')) {
-                        schoolType = 'primaria';
-                        displayType = 'Primary School';
+                        schoolType = 'primaria'; displayType = 'Primary School';
                     } else if (typeValue.includes('sec')) {
                         if (typeValue.includes('ii') || typeValue === 'sec ii') {
-                            schoolType = 'secondaria_ii';
-                            displayType = 'High School';
+                            schoolType = 'secondaria_ii'; displayType = 'High School';
                         } else {
-                            schoolType = 'secondaria_i';
-                            displayType = 'Middle School';
+                            schoolType = 'secondaria_i'; displayType = 'Middle School';
                         }
                     }
-                    
                     let studentCount = 0;
                     if (school[totalField] && !isNaN(parseInt(school[totalField]))) {
                         const value = parseInt(school[totalField]);
                         if (value > 0 && value < 10000) studentCount = value;
                     }
-                    
                     return {
                         name: school[nameField] || 'Unknown School',
                         address: school[addressField] || 'Address not available',
@@ -575,15 +299,10 @@
                 
                 showAllSchoolsOnMap();
                 updateVisibleSchools();
-                
                 document.getElementById('statusMessage').innerHTML = '';
                 showStatus(`${schoolsData.length} schools loaded!`);
-                setTimeout(() => {
-                    document.getElementById('statusMessage').innerHTML = '';
-                }, 3000);
-                
+                setTimeout(() => { document.getElementById('statusMessage').innerHTML = ''; }, 3000);
                 return true;
-                
             } catch (error) {
                 console.error('Error processing school data:', error);
                 showError('Error processing school data: ' + error.message);
@@ -591,17 +310,12 @@
             }
         }
 
-        // Property Search - NO /locations endpoint, direct locationID mapping
+        // ===== Property Search with Pagination =====
         async function searchProperties() {
             const location = document.getElementById('propertyLocation').value.trim().toLowerCase();
             const propertyType = document.getElementById('propertyType').value;
-            
-            if (!location) {
-                showError('Please enter a city!');
-                return;
-            }
-            
-            // LocationIDs from your Google Apps Script
+            if (!location) { showError('Please enter a city!'); return; }
+
             const locationMap = {
                 'catania': { id: '0-EU-IT-CT', name: 'Catania' },
                 'palermo': { id: '0-EU-IT-PA', name: 'Palermo' },
@@ -615,38 +329,60 @@
                 'enna': { id: '0-EU-IT-EN', name: 'Enna' },
                 'taormina': { id: '0-EU-IT-ME', name: 'Taormina' }
             };
-            
             const locationData = locationMap[location];
-            
             if (!locationData) {
                 showError(`City "${location}" not found. Try: Catania, Palermo, Messina, Siracusa, Trapani, Ragusa, Agrigento`);
                 return;
             }
-            
-            showStatus('Searching for properties on Idealista...');
-            console.log('Using locationID:', locationData.id, 'for', locationData.name);
-            
+
+            showStatus(`Searching properties in ${locationData.name}… (fetching all pages)`);
             try {
-                const properties = await fetchPropertiesFromAPI(locationData, propertyType);
-                
-                if (properties && properties.length > 0) {
-                    allPropertiesData = properties;
+                const all = await fetchAllProperties(locationData, propertyType, MAX_TOTAL_LISTINGS);
+                if (all && all.length > 0) {
+                    // Dedupe by ID (propertyCode)
+                    const deduped = [];
+                    const seen = new Set();
+                    for (const p of all) {
+                        const key = String(p.id);
+                        if (!seen.has(key)) { seen.add(key); deduped.push(p); }
+                    }
+                    allPropertiesData = deduped;
                     applyFilters();
-                    showStatus(`${properties.length} properties found!`);
-                    setTimeout(() => {
-                        document.getElementById('statusMessage').innerHTML = '';
-                    }, 3000);
+                    showStatus(`${deduped.length} properties found (all pages).`);
+                    setTimeout(() => { document.getElementById('statusMessage').innerHTML = ''; }, 3000);
                 } else {
+                    allPropertiesData = [];
+                    propertiesData = [];
+                    updatePropertiesOnMap();
+                    updateVisibleProperties();
                     showError('No properties found for this location.');
                 }
-                
             } catch (error) {
                 console.error('Error searching properties:', error);
                 showError('Error: ' + error.message);
             }
         }
 
-        async function fetchPropertiesFromAPI(locationData, propertyType) {
+        async function fetchAllProperties(locationData, propertyType, maxTotal = 300) {
+            const results = [];
+            let page = 1;
+
+            // Lade Seiten nacheinander, bis leer/unter PAGE_SIZE/Limit erreicht
+            while (results.length < maxTotal && page <= MAX_PAGES) {
+                showStatus(`Loading page ${page}…`);
+                const batch = await fetchPropertiesFromAPI(locationData, propertyType, page);
+                if (!batch || batch.length === 0) break;
+                results.push(...batch);
+
+                // Abbruch, wenn letzte Seite (weniger als PAGE_SIZE) erreicht
+                if (batch.length < PAGE_SIZE) break;
+
+                page += 1;
+            }
+            return results;
+        }
+
+        async function fetchPropertiesFromAPI(locationData, propertyType, page = 1) {
             try {
                 const endpointMap = {
                     'homes': 'listhomes',
@@ -654,26 +390,21 @@
                     'offices': 'listoffices',
                     'commercialproperties': 'listcommercialproperties'
                 };
-                
                 const endpoint = endpointMap[propertyType] || 'listhomes';
-                
-                // Get operation type (rent or sale) from dropdown
                 const operation = document.getElementById('operationType').value;
-                
+
                 const params = new URLSearchParams({
                     order: 'relevance',
                     operation: operation,
                     locationId: locationData.id,
-                    maxItems: '40',
+                    maxItems: String(PAGE_SIZE),
                     locationName: locationData.name,
-                    numPage: '1',
+                    numPage: String(page),
                     location: 'it',
                     locale: 'it'
                 });
-                
+
                 const url = `https://idealista7.p.rapidapi.com/${endpoint}?${params}`;
-                console.log('Fetching from:', url);
-                
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
@@ -681,45 +412,37 @@
                         'x-rapidapi-host': 'idealista7.p.rapidapi.com'
                     }
                 });
-                
-                console.log('API status:', response.status);
-                
+
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('API Error:', errorText);
+                    const errorText = await response.text().catch(() => '');
+                    console.error('API Error:', response.status, errorText);
                     throw new Error(`API returned status ${response.status}`);
                 }
-                
+
                 const data = await response.json();
-                console.log('API response:', data.elementList ? `${data.elementList.length} items found` : 'No items');
-                
-                if (data && data.elementList) {
-                    const properties = data.elementList
-                        .filter(prop => {
-                            const hasThumbnail = prop.thumbnail && prop.thumbnail.trim() !== "";
-                            const isNotSharedSpace = !/\b(dedicati|private|dedicated|cowork|compartido|coworking)\b/i.test(prop.description || '');
-                            return prop.latitude && prop.longitude && hasThumbnail && isNotSharedSpace;
-                        })
-                        .map(prop => ({
-                            id: prop.propertyCode || (Date.now() + Math.random()),
-                            address: prop.address || 'No address',
-                            price: prop.price || 0,
-                            rooms: prop.rooms || 0,
-                            size: prop.size || 0,
-                            lat: prop.latitude,
-                            lon: prop.longitude,
-                            url: prop.url || `https://www.idealista.it/immobile/${prop.propertyCode}`,
-                            thumbnail: prop.thumbnail || '',
-                            description: prop.description || '',
-                            floor: prop.floor || '',
-                            bathrooms: prop.bathrooms || 0
-                        }));
-                    
-                    console.log(`Processed ${properties.length} properties after filtering`);
-                    return properties;
-                }
-                
-                return [];
+                const list = (data && data.elementList) ? data.elementList : [];
+
+                return list
+                    .filter(prop => {
+                        const hasThumbnail = prop.thumbnail && String(prop.thumbnail).trim() !== "";
+                        const isNotSharedSpace = !/\b(dedicati|private|dedicated|cowork|compartido|coworking)\b/i.test(prop.description || '');
+                        // Mindestdaten
+                        return prop.latitude && prop.longitude && hasThumbnail && isNotSharedSpace;
+                    })
+                    .map(prop => ({
+                        id: prop.propertyCode || (Date.now() + Math.random()),
+                        address: prop.address || 'No address',
+                        price: prop.price || 0,
+                        rooms: prop.rooms || 0,
+                        size: prop.size || 0,
+                        lat: prop.latitude,
+                        lon: prop.longitude,
+                        url: prop.url || (prop.propertyCode ? `https://www.idealista.it/immobile/${prop.propertyCode}` : '#'),
+                        thumbnail: prop.thumbnail || '',
+                        description: prop.description || '',
+                        floor: prop.floor || '',
+                        bathrooms: prop.bathrooms || 0
+                    }));
             } catch (error) {
                 console.error('Error fetching properties:', error);
                 throw error;
@@ -735,9 +458,7 @@
                 updateVisibleProperties();
                 closeComparison();
                 showStatus('All properties removed!');
-                setTimeout(() => {
-                    document.getElementById('statusMessage').innerHTML = '';
-                }, 2000);
+                setTimeout(() => { document.getElementById('statusMessage').innerHTML = ''; }, 2000);
             }
         }
 
@@ -745,42 +466,36 @@
             const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
             const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
             const minSize = parseInt(document.getElementById('minSize').value) || 0;
-            
+
             propertiesData = allPropertiesData.filter(prop => {
                 return prop.price >= minPrice &&
                        prop.price <= maxPrice &&
                        prop.size >= minSize;
             });
-            
-            console.log(`Filtered to ${propertiesData.length} properties`);
-            
+
             updatePropertiesOnMap();
             updateVisibleProperties();
         }
 
-        // Map Functions
+        // ===== Map Functions =====
         function initMap() {
             if (map) map.remove();
-            
             map = L.map('map').setView([38.1157, 13.3615], 10);
-            
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors',
-                maxZoom: 19
+                attribution: '© OpenStreetMap contributors', maxZoom: 19
             }).addTo(map);
-
             markersGroup = L.layerGroup().addTo(map);
-            
+
             delete L.Icon.Default.prototype._getIconUrl;
             L.Icon.Default.mergeOptions({
                 iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
                 iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
                 shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png'
             });
-            
+
             map.on('moveend', updateVisibleSchools);
             map.on('zoomend', updateVisibleSchools);
-            
+
             setTimeout(() => map.invalidateSize(), 100);
         }
 
@@ -795,19 +510,13 @@
 
         function showAllSchoolsOnMap() {
             if (!schoolsData || schoolsData.length === 0) return;
-            
             markersGroup.clearLayers();
-            
+
             schoolsData.forEach(school => {
                 const color = getSchoolColor(school);
                 const radius = school.students ? Math.max(4, Math.min(15, 4 + (school.students / 80))) : 4;
-                
                 L.circleMarker([school.lat, school.lon], {
-                    radius: radius,
-                    fillColor: color,
-                    color: 'white',
-                    weight: 2,
-                    fillOpacity: 0.8
+                    radius, fillColor: color, color: 'white', weight: 2, fillOpacity: 0.8
                 }).bindPopup(`
                     <div style="font-family: inherit; max-width: 250px;">
                         <h3 style="color: ${color}; margin: 0 0 10px 0;">${school.name}</h3>
@@ -818,24 +527,20 @@
                     </div>
                 `).addTo(markersGroup);
             });
-            
+
             document.getElementById('mainContent').style.display = 'grid';
             setTimeout(() => map && map.invalidateSize(), 100);
         }
 
         function updatePropertiesOnMap() {
             markersGroup.clearLayers();
-            
+
+            // Schulen
             schoolsData.forEach(school => {
                 const color = getSchoolColor(school);
                 const radius = school.students ? Math.max(4, Math.min(15, 4 + (school.students / 80))) : 4;
-                
                 L.circleMarker([school.lat, school.lon], {
-                    radius: radius,
-                    fillColor: color,
-                    color: 'white',
-                    weight: 2,
-                    fillOpacity: 0.8
+                    radius, fillColor: color, color: 'white', weight: 2, fillOpacity: 0.8
                 }).bindPopup(`
                     <div style="font-family: inherit; max-width: 250px;">
                         <h3 style="color: ${color}; margin: 0 0 10px 0;">${school.name}</h3>
@@ -846,34 +551,25 @@
                     </div>
                 `).addTo(markersGroup);
             });
-            
+
+            // Properties
             propertiesData.forEach(prop => {
                 const nearbySchoolsData = schoolsData.filter(school => {
                     const dist = calculateDistance(prop.lat, prop.lon, school.lat, school.lon);
                     return dist <= 1000;
                 });
-                
                 const nearbySchoolsCount = nearbySchoolsData.length;
                 const totalStudents = nearbySchoolsData.reduce((sum, school) => sum + school.students, 0);
-                
-                // 1km Radius-Kreis um die Property
+
+                // 1km Kreis
                 L.circle([prop.lat, prop.lon], {
-                    radius: 1000,
-                    fillColor: '#FF1744',
-                    color: '#FF1744',
-                    weight: 2,
-                    fillOpacity: 0.05,
-                    opacity: 0.3,
-                    dashArray: '5, 10'
+                    radius: 1000, fillColor: '#FF1744', color: '#FF1744',
+                    weight: 2, fillOpacity: 0.05, opacity: 0.3, dashArray: '5, 10'
                 }).addTo(markersGroup);
-                
-                // Property marker
+
+                // Marker
                 L.circleMarker([prop.lat, prop.lon], {
-                    radius: 12,
-                    fillColor: '#FF1744',
-                    color: '#FFD700',
-                    weight: 3,
-                    fillOpacity: 0.9
+                    radius: 12, fillColor: '#FF1744', color: '#FFD700', weight: 3, fillOpacity: 0.9
                 }).bindPopup(`
                     <div style="font-family: inherit; max-width: 300px;">
                         <h3 style="color: #FF1744; margin: 0 0 10px 0;">${prop.address}</h3>
@@ -890,7 +586,7 @@
                     </div>
                 `).addTo(markersGroup);
             });
-            
+
             if (propertiesData.length > 0) {
                 const bounds = L.latLngBounds(propertiesData.map(p => [p.lat, p.lon]));
                 map.fitBounds(bounds, { padding: [50, 50] });
@@ -899,12 +595,9 @@
 
         function updateVisibleSchools() {
             if (!map || !schoolsData) return;
-            
-            // Wenn Properties geladen sind, zeige ALLE Schulen in der Liste
             if (propertiesData.length > 0) {
-                displaySchools(schoolsData);
+                displaySchools(schoolsData); // alle, wenn Properties geladen
             } else {
-                // Sonst zeige nur Schulen im sichtbaren Bereich
                 const bounds = map.getBounds();
                 const visible = schoolsData.filter(s => bounds.contains([s.lat, s.lon]));
                 displaySchools(visible);
@@ -918,30 +611,20 @@
         function displaySchools(schools) {
             const container = document.getElementById('schoolResults');
             const stats = document.getElementById('schoolsStats');
-            
             const totalStudents = schools.reduce((sum, s) => sum + s.students, 0);
-            
+
             stats.innerHTML = `<div class="stats">
                 ${schools.length} Schools<br>
                 ${totalStudents.toLocaleString()} Total Students
             </div>`;
-            
+
             container.innerHTML = schools.slice(0, 20).map(s => `
                 <div class="card" onclick="focusOnMap(${s.lat}, ${s.lon})">
                     <div class="card-header">${s.name}</div>
                     <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Type:</span>
-                            <span>${s.typeDisplay}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Students:</span>
-                            <span>${s.students > 0 ? s.students : 'N/A'}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">City:</span>
-                            <span>${s.city}</span>
-                        </div>
+                        <div class="info-row"><span class="info-label">Type:</span><span>${s.typeDisplay}</span></div>
+                        <div class="info-row"><span class="info-label">Students:</span><span>${s.students > 0 ? s.students : 'N/A'}</span></div>
+                        <div class="info-row"><span class="info-label">City:</span><span>${s.city}</span></div>
                     </div>
                 </div>
             `).join('');
@@ -950,112 +633,75 @@
         function displayProperties(properties) {
             const container = document.getElementById('propertyResults');
             const stats = document.getElementById('propertiesStats');
-            
+
             if (properties.length === 0) {
                 stats.innerHTML = `<div class="stats">No properties loaded</div>`;
                 container.innerHTML = `<p style="text-align: center; color: #666; padding: 20px;">Search for a city to see properties.</p>`;
                 return;
             }
-            
+
             const avgPrice = properties.reduce((sum, p) => sum + p.price, 0) / properties.length;
-            
+
             stats.innerHTML = `<div class="stats">
                 ${properties.length} Properties<br>
                 Avg €${Math.round(avgPrice).toLocaleString()}
             </div>`;
-            
+
             container.innerHTML = properties.map(p => `
                 <div class="property-card card" onclick="focusOnMap(${p.lat}, ${p.lon})">
                     <input type="checkbox" class="compare-checkbox" 
-                           ${selectedForComparison.includes(p.id) ? 'checked' : ''}
-                           onchange="toggleComparison('${p.id}')" 
-                           onclick="event.stopPropagation()">
+                        ${selectedForComparison.includes(p.id) ? 'checked' : ''}
+                        onchange="toggleComparison('${p.id}')" 
+                        onclick="event.stopPropagation()">
                     ${p.thumbnail ? `<img src="${p.thumbnail}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;">` : ''}
                     <div class="price-tag">€${p.price.toLocaleString()}</div>
                     <div class="card-header">${p.address}</div>
                     <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Rooms:</span>
-                            <span>${p.rooms}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Size:</span>
-                            <span>${p.size}m²</span>
-                        </div>
-                        ${p.size > 0 && p.price > 0 ? `
-                        <div class="info-row">
-                            <span class="info-label">€/m²:</span>
-                            <span>€${Math.round(p.price / p.size)}</span>
-                        </div>` : ''}
-                        <a href="${p.url}" target="_blank" onclick="event.stopPropagation()" 
-                           style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">
-                            View Details
-                        </a>
+                        <div class="info-row"><span class="info-label">Rooms:</span><span>${p.rooms}</span></div>
+                        <div class="info-row"><span class="info-label">Size:</span><span>${p.size}m²</span></div>
+                        ${p.size > 0 && p.price > 0 ? `<div class="info-row"><span class="info-label">€/m²:</span><span>€${Math.round(p.price / p.size)}</span></div>` : ''}
+                        <a href="${p.url}" target="_blank" onclick="event.stopPropagation()" style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">View Details</a>
                     </div>
                 </div>
             `).join('');
         }
 
-        function focusOnMap(lat, lon) {
-            map.setView([lat, lon], 17);
-        }
+        function focusOnMap(lat, lon) { map.setView([lat, lon], 17); }
 
         function toggleComparison(propertyId) {
             const index = selectedForComparison.indexOf(propertyId);
-            if (index > -1) {
-                selectedForComparison.splice(index, 1);
-            } else {
-                selectedForComparison.push(propertyId);
-            }
+            if (index > -1) { selectedForComparison.splice(index, 1); }
+            else { selectedForComparison.push(propertyId); }
             updateComparison();
         }
 
         function updateComparison() {
             const panel = document.getElementById('comparisonPanel');
             const grid = document.getElementById('comparisonGrid');
-            
+
             if (selectedForComparison.length === 0) {
-                panel.classList.remove('active');
-                return;
+                panel.classList.remove('active'); return;
             }
-            
             panel.classList.add('active');
-            
+
             const selected = propertiesData.filter(p => selectedForComparison.includes(p.id));
-            
             grid.innerHTML = selected.map(p => {
-                const nearbySchools = schoolsData.filter(school => {
-                    const dist = calculateDistance(p.lat, p.lon, school.lat, school.lon);
-                    return dist <= 1000;
-                }).length;
-                
+                const nearbySchools = schoolsData.filter(school => calculateDistance(p.lat, p.lon, school.lat, school.lon) <= 1000).length;
                 return `
                 <div class="card property-card">
                     <div class="price-tag">€${p.price.toLocaleString()}</div>
                     <div class="card-header">${p.address}</div>
                     <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Rooms:</span>
-                            <span>${p.rooms}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Size:</span>
-                            <span>${p.size}m²</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">€/m²:</span>
-                            <span>€${Math.round(p.price / p.size)}</span>
-                        </div>
+                        <div class="info-row"><span class="info-label">Rooms:</span><span>${p.rooms}</span></div>
+                        <div class="info-row"><span class="info-label">Size:</span><span>${p.size}m²</span></div>
+                        <div class="info-row"><span class="info-label">€/m²:</span><span>€${p.size>0?Math.round(p.price / p.size):'—'}</span></div>
                         <div class="info-row" style="background: var(--gs-yellow); padding: 8px; border-radius: 5px; margin-top: 8px;">
-                            <span class="info-label">Schools (1km):</span>
-                            <span><strong>${nearbySchools}</strong></span>
+                            <span class="info-label">Schools (1km):</span><span><strong>${nearbySchools}</strong></span>
                         </div>
-                        <a href="${p.url}" target="_blank" style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">
-                            Details
-                        </a>
+                        <a href="${p.url}" target="_blank" style="color: var(--gs-red); font-weight: 600; margin-top: 8px; display: block;">Details</a>
                     </div>
-                </div>
-            `}).join('');
+                </div>`;
+            }).join('');
         }
 
         function closeComparison() {
@@ -1067,17 +713,10 @@
         async function geocodeAddress(address) {
             const encodedAddress = encodeURIComponent(address + ', Sicilia, Italia');
             const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedAddress}&limit=1`;
-            
             try {
                 const response = await fetch(url);
                 const data = await response.json();
-                
-                if (data && data.length > 0) {
-                    return {
-                        lat: parseFloat(data[0].lat),
-                        lon: parseFloat(data[0].lon)
-                    };
-                }
+                if (data && data.length > 0) { return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) }; }
                 return null;
             } catch (error) {
                 console.error('Geocoding error:', error);
@@ -1091,52 +730,35 @@
             const φ2 = lat2 * Math.PI/180;
             const Δφ = (lat2-lat1) * Math.PI/180;
             const Δλ = (lon2-lon1) * Math.PI/180;
-
-            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-                      Math.cos(φ1) * Math.cos(φ2) *
-                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
             return R * c;
         }
 
         function showStatus(message) {
             document.getElementById('statusMessage').innerHTML = `<div class="loading">${message}</div>`;
         }
-
         function showError(message) {
             document.getElementById('statusMessage').innerHTML = `<div class="error">${message}</div>`;
         }
 
+        // ===== Event Listeners =====
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const address = document.getElementById('addressInput').value.trim();
-            
             if (!address) {
                 userLocation = null;
                 showAllSchoolsOnMap();
                 return;
             }
-            
             showStatus('Searching address...');
             const location = await geocodeAddress(address);
-            
-            if (!location) {
-                showError('Address not found.');
-                return;
-            }
-            
+            if (!location) { showError('Address not found.'); return; }
             userLocation = location;
             const radius = parseInt(document.getElementById('radiusSelect').value);
-            
-            const nearby = schoolsData.filter(s => {
-                const dist = calculateDistance(location.lat, location.lon, s.lat, s.lon);
-                return dist <= radius;
-            });
-            
+            const nearby = schoolsData.filter(s => calculateDistance(location.lat, location.lon, s.lat, s.lon) <= radius);
             displaySchools(nearby);
             map.setView([location.lat, location.lon], 14);
-            
             document.getElementById('statusMessage').innerHTML = '';
         });
 
@@ -1144,16 +766,9 @@
             e.preventDefault();
             await searchProperties();
         });
-
-        document.getElementById('minPrice').addEventListener('change', () => {
-            if (allPropertiesData.length > 0) applyFilters();
-        });
-        document.getElementById('maxPrice').addEventListener('change', () => {
-            if (allPropertiesData.length > 0) applyFilters();
-        });
-        document.getElementById('minSize').addEventListener('change', () => {
-            if (allPropertiesData.length > 0) applyFilters();
-        });
+        document.getElementById('minPrice').addEventListener('change', () => { if (allPropertiesData.length > 0) applyFilters(); });
+        document.getElementById('maxPrice').addEventListener('change', () => { if (allPropertiesData.length > 0) applyFilters(); });
+        document.getElementById('minSize').addEventListener('change', () => { if (allPropertiesData.length > 0) applyFilters(); });
 
         window.addEventListener('load', async () => {
             initMap();
