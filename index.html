@@ -856,7 +856,18 @@
                 const nearbySchoolsCount = nearbySchoolsData.length;
                 const totalStudents = nearbySchoolsData.reduce((sum, school) => sum + school.students, 0);
                 
-                // Property marker - OHNE Labels
+                // 1km Radius-Kreis um die Property
+                L.circle([prop.lat, prop.lon], {
+                    radius: 1000,
+                    fillColor: '#FF1744',
+                    color: '#FF1744',
+                    weight: 2,
+                    fillOpacity: 0.05,
+                    opacity: 0.3,
+                    dashArray: '5, 10'
+                }).addTo(markersGroup);
+                
+                // Property marker
                 L.circleMarker([prop.lat, prop.lon], {
                     radius: 12,
                     fillColor: '#FF1744',
@@ -888,9 +899,16 @@
 
         function updateVisibleSchools() {
             if (!map || !schoolsData) return;
-            const bounds = map.getBounds();
-            const visible = schoolsData.filter(s => bounds.contains([s.lat, s.lon]));
-            displaySchools(visible);
+            
+            // Wenn Properties geladen sind, zeige ALLE Schulen in der Liste
+            if (propertiesData.length > 0) {
+                displaySchools(schoolsData);
+            } else {
+                // Sonst zeige nur Schulen im sichtbaren Bereich
+                const bounds = map.getBounds();
+                const visible = schoolsData.filter(s => bounds.contains([s.lat, s.lon]));
+                displaySchools(visible);
+            }
         }
 
         function updateVisibleProperties() {
