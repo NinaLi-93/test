@@ -868,11 +868,14 @@
                         <p><strong>Rooms:</strong> ${prop.rooms}</p>
                         <p><strong>Size:</strong> ${prop.size}m²</p>
                         ${prop.size > 0 && prop.price > 0 ? `<p><strong>€/m²:</strong> €${Math.round(prop.price / prop.size)}</p>` : ''}
+                        <p style="margin-top: 12px; padding: 8px; background: #FFD363; border-radius: 6px; font-weight: 700; color: #041345;">
+                            Schools within 1km: ${nearbySchools}
+                        </p>
                         <a href="${prop.url}" target="_blank" style="color: #FF1744; font-weight: 600; display: block; margin-top: 8px;">View on Idealista</a>
                     </div>
                 `).addTo(markersGroup);
                 
-                // School count label next to property marker
+                // School count label next to property marker - NICHT klickbar
                 const schoolIcon = L.divIcon({
                     className: 'school-count-label',
                     html: `<div style="
@@ -885,14 +888,16 @@
                         border: 2px solid white;
                         box-shadow: 0 2px 6px rgba(0,0,0,0.3);
                         white-space: nowrap;
-                    ">🏫 ${nearbySchools}</div>`,
-                    iconSize: [40, 20],
-                    iconAnchor: [20, 10]
+                        pointer-events: none;
+                    ">${nearbySchools}</div>`,
+                    iconSize: [30, 20],
+                    iconAnchor: [15, 25]
                 });
                 
                 L.marker([prop.lat, prop.lon], { 
                     icon: schoolIcon,
-                    zIndexOffset: 1000
+                    zIndexOffset: 1000,
+                    interactive: false
                 }).addTo(markersGroup);
             });
             
