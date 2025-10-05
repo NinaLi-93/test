@@ -856,18 +856,7 @@
                 const nearbySchoolsCount = nearbySchoolsData.length;
                 const totalStudents = nearbySchoolsData.reduce((sum, school) => sum + school.students, 0);
                 
-                // 1km Radius-Kreis um die Property
-                L.circle([prop.lat, prop.lon], {
-                    radius: 1000,
-                    fillColor: '#FF1744',
-                    color: '#FF1744',
-                    weight: 2,
-                    fillOpacity: 0.05,
-                    opacity: 0.3,
-                    dashArray: '5, 10'
-                }).addTo(markersGroup);
-                
-                // Property marker
+                // Property marker - OHNE Labels
                 L.circleMarker([prop.lat, prop.lon], {
                     radius: 12,
                     fillColor: '#FF1744',
